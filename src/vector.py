@@ -1,6 +1,7 @@
 """
 Object class representation of an vector.
 """
+import math
 
 
 class Vector(object):
@@ -44,3 +45,9 @@ class Vector(object):
             return Vector([coordinate * scalar for coordinate in self.coordinates])
         except ValueError:
             raise ValueError("Scalar must be a real number")
+
+    def magnitude(self):
+        return math.sqrt(sum([coordinate ** 2 for coordinate in self.coordinates]))
+
+    def direction(self):
+        return Vector([coordinate * (1 / self.magnitude()) for coordinate in self.coordinates])
