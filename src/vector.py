@@ -55,8 +55,29 @@ class Vector(object):
         except ZeroDivisionError:
             raise ZeroVectorMagnitudeError
 
+    def dot_product(self, other):
+        if len(self) == len(other) and isinstance(other, Vector):
+            return sum([a * b for a, b in zip(self.coordinates, other.coordinates)])
+        else:
+            raise ValueError("Both arguments must be Vector objects of the same length")
+
+    def compute_angle_radians(self, other):
+        try:
+            return math.acos(self.dot_product(other) / (self.magnitude() * other.magnitude()))
+        except ZeroVectorMagnitudeError:
+            raise ZeroVectorAngleError
+
+    def compute_angle_degrees(self, other):
+        return math.degrees(self.compute_angle_radians(other))
+
 
 class ZeroVectorMagnitudeError(Exception):
     def __init__(self):
         message = "Cannot normalize vector whose magnitude is zero"
         super(ZeroVectorMagnitudeError, self).__init__(message)
+
+
+class ZeroVectorAngleError(Exception):
+    def __init__(self):
+        message = "Cannot compute an angle wiwth a vector whose magnitude is zero"
+        super(ZeroVectorAngleError, self).__init__(message)
