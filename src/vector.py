@@ -50,4 +50,13 @@ class Vector(object):
         return math.sqrt(sum([coordinate ** 2 for coordinate in self.coordinates]))
 
     def direction(self):
-        return Vector([coordinate * (1 / self.magnitude()) for coordinate in self.coordinates])
+        try:
+            return Vector([coordinate * (1 / self.magnitude()) for coordinate in self.coordinates])
+        except ZeroDivisionError:
+            raise ZeroVectorMagnitudeError
+
+
+class ZeroVectorMagnitudeError(Exception):
+    def __init__(self):
+        message = "Cannot normalize vector whose magnitude is zero"
+        super(ZeroVectorMagnitudeError, self).__init__(message)
